@@ -21,7 +21,7 @@ const CoursePage = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/tests/tests/${id}`);
+        const response = await axios.get(`https://spirality-backend-production.up.railway.app/api/tests/tests/${id}`);
         setCourse(response.data);
         setUserAnswers(new Array(response.data.test.length).fill(null));
       } catch (error) {

@@ -33,7 +33,7 @@ export default function Home() {
 
     try {
       setLoading(true); // Start loading
-      const response = await axios.post('http://localhost:8000/api/tests/create', formData, {
+      const response = await axios.post('https://spirality-backend-production.up.railway.app/api/tests/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -106,7 +106,7 @@ export default function Home() {
         </div>
         <div className="md:mt-11 mt-5 bg-[#20232676] rounded-2xl p-6 w-full max-w-sm md:max-w-3xl text-center">
           <p className="text-sm md:text-xl font-thin">
-            Я учусь на математическом факультете КБТУ и страстно увлечен будущим искусственного интеллекта.
+            Я большой фанат аниме Наруто и частенько посматриваю футбол, болею за футбольный клуб Барселона
           </p>
         </div>
       </div>
