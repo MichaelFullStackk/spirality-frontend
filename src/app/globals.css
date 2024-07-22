@@ -22,6 +22,7 @@ body {
   color: rgb(var(--foreground-rgb));
   /* Use solid background color */
   background-color: #191A1A;
+  /* background-color: #222222; */
 }
 
 @layer utilities {
@@ -96,4 +97,19 @@ body {
 
 .accordion-content.open {
   max-height: 1000px; /* Adjust this value according to your content height */
+}
+
+/* Add this CSS to your global styles */
+.loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #6a4ae2; /* Blue */
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

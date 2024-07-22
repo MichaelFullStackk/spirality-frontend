@@ -1,23 +1,54 @@
-"use client"
+"use client";
+
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useState } from 'react';
-import axios from 'axios';
+import React, { useCallback, useState, useEffect } from 'react';
+import axiosInstance from './utils/axiosInstance';
 import { useDropzone } from 'react-dropzone';
-import Header from "./components/layout/Header";
-import Image from "next/image";
-import Box from './components/box/BoxShadow';
-import PathNode from './components/layout/PathNode';
+import Course from './components/course/Course';
+import Footer from './components/layout/Footer';
+import Profile from './components/profile/Profile';
+import axios from 'axios';
 
 export default function Home() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false); // New state for tracking upload success
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false); // State for accordion
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [courseLoading, setCourseLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState('home'); // Новое состояние для активной секции
+
   const router = useRouter();
+  const fetchCourses = async () => {
+    try {
+      const refreshToken = localStorage.getItem('refreshToken');
+      const response = await axiosInstance.post('/course/user_courses', {"token": refreshToken}); // Используем инстанс axios
+      const courseIds = response.data.user_courses;
+      
+      const courseDetailsPromises = courseIds.map(async (id) => {
+        const courseResponse = await axiosInstance.get(`/course/${id}/get_topic_id`); // Используем инстанс axios
+        return {
+          id: courseResponse.data.name_of_course._id,
+          name: courseResponse.data.name_of_course.headName,
+          topics: courseResponse.data.id_collection,
+        };
+      });
+
+      const courseDetails = await Promise.all(courseDetailsPromises);
+      setCourses(courseDetails);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    } finally {
+      setCourseLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
     setFile(acceptedFiles[0]);
-    setUploadSuccess(false); // Reset upload success when a new file is selected
+    setUploadSuccess(false);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -27,106 +58,101 @@ export default function Home() {
       alert('Please select a file');
       return;
     }
-
+    const refreshToken = localStorage.getItem('refreshToken');
+    const response = await axiosInstance.put('/auth/userInfo', {"token": refreshToken });
+    const user = response.data.user;
+    
     const formData = new FormData();
     formData.append('material', file);
+    formData.append('token', refreshToken);
+    formData.append('user_interest', user.surveyAnswers.join(','));
 
     try {
-      setLoading(true); // Start loading
-      const response = await axios.post('https://spirality-backend-production.up.railway.app/api/tests/create', formData, {
+      setLoading(true);
+
+      const response = await axiosInstance.post('/course/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
       const { data } = response;
-      const newTestId = data._id; // Assuming the response contains the new test's ID
-      setUploadSuccess(true); // Set upload success to true
-      router.push(`pages/course/${newTestId}`); // Redirect to the new course page
+      
+      const newTestId = data._id;
+      setUploadSuccess(true);
+      router.push(`pages/course/course-${newTestId}`);
     } catch (error) {
       console.error('Error uploading file:', error);
-      // Handle error (e.g., show an error message to the user)
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
+  
   return (
-    <main className="min-h-screen flex flex-col items-center font-ubuntu mb-[0.7rem]">
-      {loading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <img 
-            src="https://i.ibb.co/vkqbnCb/spiral-logo-concept-swirl-modern-logo-design-free-vector-Photoroom.png" 
-            alt="Spirality Logo" 
-            className="h-32 w-32 md:h-30 md:w-30 rotate-animation-loader" 
-          />      
-        </div>
-      )}
-      {/* Main Section */}
-      <section className="bg-[#171819] rounded-2xl p-6 w-full max-w-[90%] md:max-w-3xl text-center shadow-2xl shadow-[#2A1E4D]">
-        <h1 className="text-3xl md:text-7xl font-extrabold text-white mb-4 text-start mt-2 md:py-6">
-          Играй & Учись вместе с ИИ
-        </h1>
-        <div
-          {...getRootProps()}
-          className={`bg-[#171819] opacity-55 rounded-lg border-2 border-dashed border-gray-500 p-8 text-white mb-4 mt-2 md:mt-6 md:py-20 ${isDragActive ? 'bg-green-500' : ''}`}
-        >
-          <input {...getInputProps()} />
-          {
-            isDragActive ?
-              <p>Перетащите фото учебного материала сюда и мы сделаем для тебя индивидуальный курс ...</p> :
-              <p>Перетащите фото учебного материала сюда и мы сделаем для тебя индивидуальный курс ...</p>
-          }
-        </div>
-        <button 
-          className="bg-[#6a4ae2] text-white font-semibold py-2 px-4 rounded-xl md:h-16 md:w-48 transition duration-300 hover:bg-[#8465f1] md:mt-5 md:text-2xl transform hover:-translate-y-1 active:translate-y-0 shadow-lg"
-          onClick={handleSubmit}
-        >
-          Дальше
-        </button>
-        {uploadSuccess && (
-          <p className="text-green-500 mt-4">Файл успешно загружен!</p>
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+        {loading && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <img 
+              src="https://i.ibb.co/vkqbnCb/spiral-logo-concept-swirl-modern-logo-design-free-vector-Photoroom.png" 
+              alt="Spirality Logo" 
+              className="h-32 w-32 md:h-30 md:w-30 rotate-animation-loader" 
+            />      
+          </div>
         )}
-      </section>
+        
+        {activeSection === 'home' && (
+          <section className="bg-[#171819] rounded-2xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center shadow-2xl shadow-[#2A1E4D] mb-4">
+            <h1 className="text-2xl md:text-7xl font-extrabold text-white mb-4 text-center mt-2 md:py-6">
+              Загрузи учебный материал и мы созадим тебе курс
+            </h1>
+            <div
+              {...getRootProps()}
+              className={`bg-[#171819] opacity-55 rounded-lg border-2 border-dashed border-gray-500 p-8 text-white mb-4 mt-2 md:mt-6 md:py-20 ${isDragActive ? 'bg-green-500' : ''}`}
+            >
+              <input {...getInputProps()} />
+              {
+                isDragActive ?
+                  <p>Перетащите фото учебного материала сюда и мы сделаем для тебя индивидуальный курс ...</p> :
+                  <p>Перетащите фото учебного материала сюда и мы сделаем для тебя индивидуальный курс ...</p>
+              }
+            </div>
+            <button 
+              className="bg-[#6a4ae2] text-white font-semibold py-2 px-4 rounded-xl md:h-16 md:w-48 transition duration-300 hover:bg-[#8465f1] md:mt-5 md:text-2xl transform hover:-translate-y-1 active:translate-y-0 shadow-lg"
+              onClick={handleSubmit}
+            >
+              Сгненерировать
+            </button>
+            {uploadSuccess && (
+              <p className="text-green-500 mt-4">Файл успешно загружен!</p>
+            )}
+          </section>
+        )}
 
-      {/* Profile Section */}
-      <div className="bg-[#17181941] rounded-2xl p-6 w-full max-w-[90%] md:max-w-3xl text-center shadow-2xl shadow-black mt-10">
-        <div className="flex items-center">
-          <img 
-            src="https://media.licdn.com/dms/image/D4E03AQE9e2VwuYLvNA/profile-displayphoto-shrink_200_200/0/1705705479349?e=2147483647&v=beta&t=RCFvwsPGyPnNtSB-jeyfGh2rHMhlxMAw311-4skbiWE" 
-            alt="Profile Picture" 
-            width={50} 
-            height={50}  
-            className="rounded-full border-2 border-gray-500 md:w-24 md:h-24 md:ml-[11%] ml-2"
-          />
-          <div className="ml-8 md:ml-32">
-            <p className="text-lg md:text-3xl font-semibold">Alidar Panaguzhiyev</p>
-            <p className="text-sm md:text-lg text-gray-400">2 level</p>
+        
+        {activeSection === 'profile' && (
+          <Profile />
+        )}
+        {activeSection === 'courses' && (
+          <div className='bg-gradient-to-br from-[#3a3d40] to-[#34495E] rounded-2xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center mb-4'>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-8 text-start mt-4 md:py-6">
+              Твои курсы
+            </h1>
+            {courseLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="loader"></div>
+              </div>
+            ) : (
+              courses.map((course) => (
+                <Course key={course.id} course_id={course.id} name_of_course={course.name} topics_id={course.topics} isOpen={false} />
+              ))
+            )}
           </div>
-        </div>
-        <div className="md:mt-11 mt-5 bg-[#20232676] rounded-2xl p-6 w-full max-w-sm md:max-w-3xl text-center">
-          <p className="text-sm md:text-xl font-thin">
-            Я большой фанат аниме Наруто и частенько посматриваю футбол, болею за футбольный клуб Барселона
-          </p>
-        </div>
-      </div>
+        )}
+      </main>
 
-      <div className="flex flex-col items-center mt-8 space-y-6">
-        <button
-          className="bg-[#302f34] h-20 text-white font-semibold py-2 px-4 rounded-xl w-full max-w-[20rem] md:max-w-3xl transition duration-300 hover:bg-[#5c5a65] md:mt-5 md:text-2xl transform hover:-translate-y-1 active:translate-y-0 shadow-lg"
-          onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-        >
-          Начало Отечественной войны против Джунгарской агрессии
-        </button>
-        <div className={`accordion-content ${isAccordionOpen ? 'open' : 'closed'} w-[20rem]`}>
-          <div className='bg-[#171819] rounded-2xl p-6 w-full max-w-[100%] md:max-w-3xl text-center mb-10'>
-            <PathNode text="1" completed position="left" />
-            <PathNode text="2" completed position="right" />
-            <PathNode text="3" position="left" />
-            <PathNode text="4" position="right" />
-          </div>
-        </div>
-      </div>
-    </main>
+      <Footer activeSection={activeSection} setActiveSection={setActiveSection} />
+    </div>
   );
 }

@@ -4,8 +4,7 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <div className="flex items-center justify-between px-2 py-4">
-        <Link href="/">
+    <div className="flex items-center justify-between px-2 py-4">     
         <div className="flex items-center">
           <img 
             src="https://i.ibb.co/vkqbnCb/spiral-logo-concept-swirl-modern-logo-design-free-vector-Photoroom.png" 
@@ -16,7 +15,6 @@ const Header = () => {
             Spirality
           </span>
         </div>
-      </Link>
     </div>
   );
 };
