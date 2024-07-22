@@ -192,7 +192,7 @@ export default function Page() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => router.push('http://localhost:3000/pages/login')}
+            onClick={() => router.push('https://spirality-frontend.vercel.app/pages/login')}
             className="w-full bg-[#171819] text-[#6a4ae2] py-3 rounded-xl font-bold text-lg border border-[#6a4ae2]"
           >
             У МЕНЯ УЖЕ ЕСТЬ АККАУНТ
@@ -358,7 +358,7 @@ export default function Page() {
         </motion.button>
         {error && <p className="text-red-500 mt-4">{error}</p>}
       </form>
-      <p className='font-ubuntu mt-4 underline text-sm text-white cursor-pointer' onClick={() => router.push('http://localhost:3000/pages/login')}>
+      <p className='font-ubuntu mt-4 underline text-sm text-white cursor-pointer' onClick={() => router.push('https://spirality-frontend.vercel.app/pages/login')}>
         Уже есть аккаунт? Войдите!
       </p>
     </motion.section>

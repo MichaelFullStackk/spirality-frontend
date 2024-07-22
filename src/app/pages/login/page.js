@@ -69,7 +69,7 @@ export default function Page() {
           </motion.button>
           {error && <p className="text-red-500 mt-4">{error}</p>}
         </form>
-        <p className='font-ubuntu mt-4 underline text-sm' onClick={() => router.push('https://spirality-backend-production.up.railway.app/pages/register')}>
+        <p className='font-ubuntu mt-4 underline text-sm' onClick={() => router.push('https://spirality-frontend.vercel.app/pages/register')}>
           Нету аккаунта?
           Зарегистрируйтесь!
         </p>
