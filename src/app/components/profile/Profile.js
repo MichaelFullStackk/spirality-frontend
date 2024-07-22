@@ -11,7 +11,6 @@ const Profile = () => {
       const refreshToken = localStorage.getItem('refreshToken');
       const response = await axiosInstance.put('/auth/userInfo', {"token": refreshToken });
       const user = response.data.user;
-      console.log(user);
 
       setUserData({
         username: user.username,

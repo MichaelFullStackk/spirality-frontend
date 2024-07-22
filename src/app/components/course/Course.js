@@ -5,7 +5,6 @@ import PathNode from "../layout/PathNode";
 
 const Course = ({ name_of_course, course_id, topics_id, isOpen }) => {
     const [isAccordionOpen, setIsAccordionOpen] = useState(isOpen);
-    console.log(course_id)
     return (
         <div className="mb-8 flex flex-col items-center">
             <button

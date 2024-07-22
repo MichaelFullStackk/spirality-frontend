@@ -18,9 +18,6 @@ export default function Page() {
   const [interest, setInterest] = useState([]);
   const router = useRouter();
 
-
-  useEffect(() => {console.log(surveyAnswers);}, [surveyAnswers])
-  
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,7 +31,6 @@ export default function Page() {
       router.push('/');
     } catch (err) {
       setError('Failed to register. Please try again.');
-      console.log(err)
     } finally {
       setLoading(false);
     }

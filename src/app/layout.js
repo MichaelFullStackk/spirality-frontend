@@ -21,8 +21,6 @@ export default function RootLayout({ children }) {
       
       const token = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
-      console.log("Refresh token taken", refreshToken);
-
       if (!token || !refreshToken) {
         router.push("https://spirality-frontend.vercel.app/pages/register/");
         return;
@@ -37,7 +35,6 @@ export default function RootLayout({ children }) {
 
         try {
           const response = await axiosInstance.put('/auth/updateCurrentTime', {"token": refreshToken });
-          console.log(response.data);
         } catch (error) {
           console.error('Ошибка при обновлении времени:', error);
         }
