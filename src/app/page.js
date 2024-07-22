@@ -47,8 +47,10 @@ export default function Home() {
   }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
-    setFile(acceptedFiles[0]);
-    setUploadSuccess(false);
+    if (acceptedFiles.length > 0) {
+      setFile(acceptedFiles[0]);
+      setUploadSuccess(false);
+    }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -102,34 +104,48 @@ export default function Home() {
           </div>
         )}
         
-        {activeSection === 'home' && (
-          <section className="bg-[#171819] rounded-2xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center shadow-2xl shadow-[#2A1E4D] mb-4">
-            <h1 className="text-2xl md:text-7xl font-extrabold text-white mb-4 text-center mt-2 md:py-6">
-              Загрузи учебный материал и мы созадим тебе курс
-            </h1>
-            <div
-              {...getRootProps()}
-              className={`bg-[#171819] opacity-55 rounded-lg border-2 border-dashed border-gray-500 p-8 text-white mb-4 mt-2 md:mt-6 md:py-20 ${isDragActive ? 'bg-green-500' : ''}`}
-            >
-              <input {...getInputProps()} />
-              {
-                isDragActive ?
-                  <p>Перетащите фото учебного материала сюда и мы сделаем для тебя индивидуальный курс ...</p> :
-                  <p>Перетащите фото учебного материала сюда и мы сделаем для тебя индивидуальный курс ...</p>
-              }
-            </div>
+    {activeSection === 'home' && (
+      <section className="bg-[#171819] rounded-2xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center shadow-2xl shadow-[#2A1E4D] mb-4">
+        <h1 className="text-2xl md:text-7xl font-extrabold text-white mb-4 text-center mt-2 md:py-6">
+          Загрузи учебный материал и мы созадим тебе курс
+        </h1>
+        <div
+          {...getRootProps()}
+          className={`bg-[#171819] opacity-55 rounded-lg border-2 border-dashed border-gray-500 p-8 text-white mb-4 mt-2 md:mt-6 md:py-20 ${isDragActive ? 'bg-green-500' : ''}`}
+        >
+        <input {...getInputProps()} />
+        {file ? (
+          <div>
+            <p>Выбранный файл: {file.name}</p>
             <button 
-              className="bg-[#6a4ae2] text-white font-semibold py-2 px-4 rounded-xl md:h-16 md:w-48 transition duration-300 hover:bg-[#8465f1] md:mt-5 md:text-2xl transform hover:-translate-y-1 active:translate-y-0 shadow-lg"
-              onClick={handleSubmit}
+              onClick={(e) => {
+                e.stopPropagation();
+                setFile(null);
+              }}
+              className="mt-2 bg-red-500 text-white px-2 py-1 rounded"
             >
-              Сгненерировать
+              Удалить файл
             </button>
-            {uploadSuccess && (
-              <p className="text-green-500 mt-4">Файл успешно загружен!</p>
-            )}
-          </section>
-        )}
-
+          </div>
+        ) : isDragActive ? (
+          <p>Отпустите файл здесь ...</p>
+        ) : (
+          <p>Перетащите фото учебного материала сюда или кликните для выбора файла</p>
+    )}
+    
+</div>
+<button 
+  className="bg-[#6a4ae2] text-white font-semibold py-2 px-4 rounded-xl md:h-16 md:w-48 transition duration-300 hover:bg-[#8465f1] md:mt-5 md:text-2xl transform hover:-translate-y-1 active:translate-y-0 shadow-lg"
+  onClick={handleSubmit}
+  disabled={!file}
+>
+  Сгенерировать
+</button>
+{uploadSuccess && (
+  <p className="text-green-500 mt-4">Файл успешно загружен!</p>
+)}
+</section>
+)}
         
         {activeSection === 'profile' && (
           <Profile />
