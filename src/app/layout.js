@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
       console.log("Refresh token taken", refreshToken);
 
       if (!token || !refreshToken) {
-        router.push("https://spirality-backend-production.up.railway.app/pages/register/");
+        router.push("https://spirality-frontend.vercel.app/pages/register/");
         return;
       }
       try {
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
       } catch (error) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        router.push("https://spirality-backend-production.up.railway.app/pages/register/");
+        router.push("https://spirality-frontend.vercel.app/pages/register/");
       }
     };
     checkAuth();
