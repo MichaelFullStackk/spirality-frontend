@@ -12,6 +12,7 @@ import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 
+
 export default function RootLayout({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
