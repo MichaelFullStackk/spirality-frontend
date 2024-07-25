@@ -107,7 +107,7 @@ export default function Home() {
     {activeSection === 'home' && (
       <section className="bg-[#171819] rounded-2xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center shadow-2xl shadow-[#2A1E4D] mb-4">
         <h1 className="text-2xl md:text-7xl font-extrabold text-white mb-4 text-center mt-2 md:py-6">
-          Загрузи фото учебного материал и мы создадим тебе курс
+          Загрузи фото учебного материала и мы создадим тебе курс
         </h1>
         <div
           {...getRootProps()}
