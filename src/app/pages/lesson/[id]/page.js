@@ -8,7 +8,7 @@ import Skeleton from '@/app/components/skeleton/SkeletonCourse';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
-const PEXELS_API_KEY = 'nlv3bF8K9X5b1HrEDXsJNM8Iy2aDAPblkPTSWvNNnHawMgD7gnHPfP1k'; // Замените на ваш ключ
+const PEXELS_API_KEY = 'nlv3bF8K9X5b1HrEDXsJNM8Iy2aDAPblkPTSWvNNnHawMgD7gnHPfP1k';
 const pexelsClient = createClient(PEXELS_API_KEY);
 
 const extractIDs = (inputString) => {
@@ -57,7 +57,7 @@ const Page = () => {
           setTopicImage(pexelsResponse.photos[0].src.large);
         }
         else{
-          setTopicImage("")
+          setTopicImage("https://t3.ftcdn.net/jpg/04/41/15/78/360_F_441157874_UDGnaFGo7JY5MX8djN50w55TRlYobtqf.jpg")
         }
       } catch (error) {
         console.error('Error fetching course data:', error);

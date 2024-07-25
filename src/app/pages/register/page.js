@@ -72,7 +72,7 @@ export default function Page() {
       key: "readyToTry"
     },
     {
-      question: "Какие темы вас интересуют?",
+      question: "Какие темы вас интересуют? Вы можете выбрать несколько вариантов.",
       options: [
         { 
           name: "Аниме", 
