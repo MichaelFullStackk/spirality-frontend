@@ -14,7 +14,7 @@ const PathNode = ({ topic_id, course_id, isLast, index }) => {
   useEffect(() => {
     const fetchTopicData = async () => {
       try {
-        const response = await axios.get(`https://spirality-frontend.vercel.app/api/course/${course_id}`);
+        const response = await axios.get(`https://spirality-backend-production.up.railway.app/api/course/${course_id}`);
         const courseData = response.data;
         const topic = courseData.topics.find(t => t._id === topic_id);
         
@@ -33,7 +33,7 @@ const PathNode = ({ topic_id, course_id, isLast, index }) => {
 
   const handleClick = () => {
     if (isAvailable) {
-      router.push(`https://spirality-backend-production.up.railway.app/pages/lesson/course-${course_id}&lesson-${topic_id}`);
+      router.push(`https://spirality-frontend.vercel.app/pages/lesson/course-${course_id}&lesson-${topic_id}`);
     }
   };
 
