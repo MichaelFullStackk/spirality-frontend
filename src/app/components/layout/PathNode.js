@@ -33,7 +33,7 @@ const PathNode = ({ topic_id, course_id, isLast, index }) => {
 
   const handleClick = () => {
     if (isAvailable) {
-      router.push(`https://spirality-frontend.vercel.app/pages/lesson/course-${course_id}&lesson-${topic_id}`);
+      router.push(`https://spirality-backend-production.up.railway.app/pages/lesson/course-${course_id}&lesson-${topic_id}`);
     }
   };
 
