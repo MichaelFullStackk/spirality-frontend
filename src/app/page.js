@@ -242,10 +242,10 @@ export default function Home() {
               </div>
             </div>
             <div className="pb-8">
-              <div className="w-[95%] max-w-2xl mx-auto relative positio">
+              <div className="w-[95%] max-w-2xl mx-auto relative positio mt-[-5%]">
                 <input
                   type="text"
-                  className="w-full bg-[#2D2D2D] text-white rounded-full py-3 px-6 pr-24 focus:outline-none focus:ring-2 focus:ring-purple-500 max-sm:mt-[-5%]"
+                  className="w-full bg-[#2D2D2D] text-white rounded-full py-3 px-6 pr-24 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder=" Создай мне курс по..."
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
