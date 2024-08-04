@@ -188,7 +188,7 @@ export default function Page() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => router.push('https://spirality-frontend.vercel.app/pages/login')}
+            onClick={() => router.push('/pages/login')}
             className="w-full bg-[#171819] text-[#6a4ae2] py-3 rounded-xl font-bold text-lg border border-[#6a4ae2]"
           >
             У МЕНЯ УЖЕ ЕСТЬ АККАУНТ

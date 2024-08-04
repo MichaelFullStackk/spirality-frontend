@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -21,7 +21,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   /* Use solid background color */
-  background-color: #191A1A;
+  background-color: #191a1a;
   /* background-color: #222222; */
 }
 
@@ -38,7 +38,7 @@ body {
       transform: rotate(360deg);
     }
   }
-  
+
   .rotate-animation {
     @apply transition-transform duration-500;
   }
@@ -50,11 +50,11 @@ body {
   .rotate-animation-loader {
     animation: rotate 1s infinite linear;
   }
-
 }
 
-.path-node::before, .path-node::after {
-  content: '';
+.path-node::before,
+.path-node::after {
+  content: "";
   position: absolute;
   width: 2px;
   height: 2rem;
@@ -110,6 +110,32 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+/* 
+
+.animate-scroll {
+  animation: scroll 10s linear infinite;
+} */
+
+.animate-scroll {
+  display: flex;
+  gap: 1rem; /* Adjust the gap as needed */
+  white-space: nowrap;
+  animation: scroll 15s linear infinite;
 }

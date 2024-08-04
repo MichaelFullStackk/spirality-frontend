@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import PathNode from "../layout/PathNode";
 import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect } from 'react';
 
 const ChevronIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 20 20" fill="currentColor">
@@ -13,11 +14,14 @@ const ChevronIcon = ({ className }) => (
 const Course = ({ name_of_course, course_id, topics_id, isOpen }) => {
     const [isAccordionOpen, setIsAccordionOpen] = useState(isOpen);
 
+    useEffect(() => {
+        setIsAccordionOpen(isOpen);
+    }, [isOpen]);
+
     return (
-        <div className="mb-12 w-full max-w-4xl mx-auto">
+        <div className="mb-12 w-full max-w-4xl mx-auto" onClick={() => setIsAccordionOpen(!isAccordionOpen)}>
             <motion.button
-                className="w-full bg-[#2C3E50] text-white font-bold py-5 px-8 rounded-xl text-xl md:text-2xl shadow-lg transition duration-300 ease-in-out hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#34495E] focus:ring-opacity-50 flex justify-between items-center"
-                onClick={() => setIsAccordionOpen(!isAccordionOpen)}
+                className="w-full bg-[#2D2D2D] text-white font-bold py-5 px-8 rounded-xl text-xl md:text-2xl shadow-lg transition duration-300 ease-in-out hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#34495E] focus:ring-opacity-50 flex justify-between items-center"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
             >
@@ -37,7 +41,7 @@ const Course = ({ name_of_course, course_id, topics_id, isOpen }) => {
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="mt-6 bg-[#34495E] rounded-2xl p-8 shadow-2xl overflow-hidden"
+                        className="mt-6 bg-[#242424] rounded-2xl p-8 shadow-2xl overflow-hidden"
                     >
                         <div className="flex flex-col items-center space-y-6">
                             {topics_id.map((topicId, index) => (

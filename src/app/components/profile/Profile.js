@@ -48,14 +48,14 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-[#3a3d40] to-[#34495E] rounded-3xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center mb-20 font-ubuntu">
+      <div className="bg-[#2D2D2D] rounded-3xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center mb-20 font-ubuntu">
         <SkeletonLoader />
       </div>
     );
   }
 
   return (
-    <div className="bg-gradient-to-br from-[#3a3d40] to-[#34495E] rounded-3xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center mb-20 font-ubuntu">
+    <div className="bg-[#2D2D2D] rounded-3xl p-6 w-full max-w-[90%] md:max-w-3xl mx-auto text-center mb-20 font-ubuntu">
       <div className="relative">
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-yellow-400 rounded-full p-2 shadow-lg">
           <img 

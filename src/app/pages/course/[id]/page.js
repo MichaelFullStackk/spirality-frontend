@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Course from '@/app/components/course/Course';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
+import dotenv from 'dotenv'
 
 const Page = () => {
   const { id } = useParams();
