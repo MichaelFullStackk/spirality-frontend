@@ -242,7 +242,7 @@ export default function Home() {
               </div>
             </div>
             <div className="pb-8">
-              <div className="w-[95%] max-w-2xl mx-auto relative positio mt-[-15%]">
+              <div className="w-[95%] max-w-2xl mx-auto relative positio">
                 <input
                   type="text"
                   className="w-full bg-[#2D2D2D] text-white rounded-full py-3 px-6 pr-24 focus:outline-none focus:ring-2 focus:ring-purple-500"
